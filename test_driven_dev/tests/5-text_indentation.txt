@@ -1,0 +1,19 @@
+"""This module defines a function that prints a text with 
+    2 new lines after each of these characters: ., ? and :
+
+    >>> text_indentation = __import__('5-text_indentation').text_indentation
+    
+    the ideal scenario
+    >>> text_indentation('I ? programming.')
+    I ?$
+    $
+     programming.$
+    $
+
+    case text is not a string
+    >>> text_indentation(2)
+    Traceback (most recent call last):
+        ...
+    TypeError: text must be a string
+
+    """

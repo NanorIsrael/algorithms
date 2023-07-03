@@ -1,0 +1,21 @@
+"""This module defines a function that prints My name is <first name> <last name>.
+
+    >>> say_my_name = __import__('3-say_my_name').say_my_name
+    
+    the ideal scenario
+    >>> say_my_name('John','Doe')
+    My name is John Doe
+
+    case first name is not a string
+    >>> say_my_name(2, 'Doe')
+    Traceback (most recent call last):
+        ...
+    TypeError: first_name must be a string
+
+    case last name is not a string
+    >>> say_my_name("John", 3)
+    Traceback (most recent call last):
+        ...
+    TypeError: last_name must be a string
+
+    """

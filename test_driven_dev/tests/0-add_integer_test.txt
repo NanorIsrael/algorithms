@@ -1,0 +1,48 @@
+"""Return the sum of two integers..
+
+   >>> add_integer = __import__('0-add_integer').add_integer
+
+   >>> add_integer(1, 99)
+   100
+
+   >>> [add_integer(1, n) for n in range(5)]
+   [1, 2, 3, 4, 5]
+
+   >>> add_integer(1.1, 2.3)
+   3
+   
+   >>> add_integer('1', 2)
+   Traceback (most recent call last):
+      ...
+   TypeError: a must be an integer
+
+   >>> add_integer(1, "2")
+   Traceback (most recent call last):
+      ...
+   TypeError: b must be an integer
+
+   case when only one parameter is passed
+   >>> add_integer(2)
+   100
+
+   case when only None parameter is passed in
+   >>> add_integer(None)
+   Traceback (most recent call last):
+      ...
+   TypeError: a must be an integer
+
+   case when a is float('inf') parameter is passed in
+   >>> add_integer(float('inf'))
+   Traceback (most recent call last):
+      ...
+   OverflowError: cannot convert float infinity to integer
+
+   case when a is float('nan') parameter is passed in
+   >>> add_integer(float('nan'))
+   Traceback (most recent call last):
+      ...
+   ValueError: cannot convert float NaN to integer
+
+"""
+
+ 

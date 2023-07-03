@@ -1,0 +1,45 @@
+"""defines a function that prints a square with the character #.
+
+    >>> print_square = __import__('4-print_square').print_square
+    
+    the ideal scenario
+    >>> print_square(2)
+    ##
+    ##
+
+   >>> print_square(2.3)
+   Traceback (most recent call last):
+      ...
+   TypeError: size must be an integer
+   
+   >>> print_square("2")
+   Traceback (most recent call last):
+      ...
+   TypeError: size must be an integer
+
+   case when only None parameter is passed in
+   >>> print_square(None)
+   Traceback (most recent call last):
+      ...
+   TypeError: size must be an integer
+
+   case when a is float('inf') parameter is passed in
+   >>> print_square(float('inf'))
+   Traceback (most recent call last):
+      ...
+   TypeError: size must be an integer
+
+   case when a is float('nan') parameter is passed in
+   >>> print_square(float('nan'))
+   Traceback (most recent call last):
+      ...
+   TypeError: size must be an integer
+
+   case when size < 0 parameter is passed in
+   >>> print_square(-4)
+   Traceback (most recent call last):
+      ...
+   ValueError: size must be >= 0
+
+
+    """
