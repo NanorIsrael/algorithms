@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 """
 This module defines a function
 that prints a square with the character #.
@@ -6,6 +8,8 @@ that prints a square with the character #.
 ##
 ##
 """
+
+
 def print_square(size):
     if size is None:
         raise TypeError("size must be an integer")

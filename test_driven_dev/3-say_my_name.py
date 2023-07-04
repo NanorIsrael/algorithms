@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 """
 This module defines a function that prints 
 My name is <first name> <last name>.
@@ -5,12 +7,13 @@ My name is <first name> <last name>.
 >>> say_my_name('John','Doe')
 My name is John Doe
 """
+
+
 def say_my_name(first_name, last_name=""):
     """Return a function that prints 
     My name is <first name> <last name>.
 
     """
-    # a, b = int(a), int(b)
     if not isinstance(first_name, str):
         raise TypeError("first_name must be a string")
     if not isinstance(last_name, str):

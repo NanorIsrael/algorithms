@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 """
 This module defines function that divides 
 all elements of a matrix.
@@ -18,8 +20,8 @@ def matrix_divided(matrix, div=None):
         raise ZeroDivisionError("division by zero")
     if not isinstance(div, int) and not isinstance(div, float):
         raise TypeError("div must be a number")
-    if len(matrix) == 0:
-        raise NameError("list can not be empty")
+    if matrix is None or len(matrix) == 0:
+        raise TypeError("matrix must be a matrix (list of lists) of integers/floats")
     
     prev_row_length = len(matrix[0])
     for row in matrix:
