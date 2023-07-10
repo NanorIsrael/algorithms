@@ -1,45 +1,56 @@
 #include "hash_tables.h"
 
-
+/**
+ * hash_table_set - implementation of table insertion
+ * @ht: table to insert data
+ * @key: key of value to insert
+ * @value: value of key to insert
+ * Return: hash value
+ */
 int hash_table_set(hash_table_t *ht, const char *key, const char *value)
 {
-    
-    if (ht == NULL || strlen(key) == 0 || strlen(value) == 0)
-        return (0);
+        unsigned long index;
+        hash_node_t *current_item;
+        hash_node_t *item;
 
-    hash_node_t *item = malloc(sizeof(hash_node_t *));
-    item->key = malloc(sizeof(char *) * strlen(key) + 1);
-    item->value = malloc(sizeof(char *) * strlen(value) + 1);
+        if (ht == NULL || strlen(key) == 0 || strlen(value) == 0)
+                return (0);
 
-    if (item == NULL || item->key == NULL || item->value == NULL)
-        return (0);
-    
-    item->key = (char *)key;
-    strcpy(item->value, strdup(value));
 
-    unsigned long index = key_index((const unsigned char *)strdup(key), ht->size);
-    hash_node_t *current_item = ht->array[index];
+        index = key_index((const unsigned char *)key, ht->size);
+        current_item = ht->array[index];
 
-    if (current_item == NULL)
-    {
-        // check if table is not full here
-        ht->array[index] = item;
-        ht->array[index]->next = NULL;
-    }
-    else
-    {
-        // handle collision here
-        while (current_item->next != NULL)
+        while (current_item != NULL)
         {
-            current_item->next = current_item->next->next;
+                if (strcmp(current_item->key, key) == 0)
+                {
+                        free(current_item->value);
+                        current_item->value = strdup(value);
+                        return (1);
+                }
+                current_item = current_item->next;
         }
-        item->next = current_item->next;
-        ht->array[index]->next = item;
-        // item = current_item;
-    }
 
-    return (1);
+        item = malloc(sizeof(hash_node_t));
+
+        if (item == NULL)
+        {
+                free(item->key);
+                free(item->value);
+                free(item);
+                return (0);
+        }
+
+        item->key = strdup(key);
+        item->value = strdup(value);
+
+        item->next = ht->array[index];
+        ht->array[index] = item;
+
+        return (1);
 }
+
+
 
 void print_ht(hash_table_t *ht)
 {
@@ -65,7 +76,6 @@ void print_ht(hash_table_t *ht)
         }
     }
 }
-
 
 // int main(void)
 // {
