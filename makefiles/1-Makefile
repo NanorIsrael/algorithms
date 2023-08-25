@@ -3,3 +3,6 @@ SRC := main.c school.c
 
 all:
 	$(CC) $(SRC) -o school ; chmod u+x hbnb ; ./school
+
+
+resource: https://www.gnu.org/software/make/manual/html_node/
