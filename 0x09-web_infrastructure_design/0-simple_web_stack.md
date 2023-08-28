@@ -72,3 +72,4 @@ Data Consistency: Ensuring that data remains consistent across replicas can be c
 Network Latency: Geo-replication across distant locations can introduce network latency.
 Failover Strategy: Automatic failover mechanisms must be well-configured to ensure seamless transitions.
 Monitoring and Maintenance: Regular monitoring and maintenance are required to ensure the health and performance of the cluster.
+
