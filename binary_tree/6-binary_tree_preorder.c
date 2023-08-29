@@ -11,8 +11,3 @@
 		binary_tree_preorder(tree->right, func);
 	}
 }
-
-void print_func(int data)
-{
-	printf(" %d ->", data);
-}
