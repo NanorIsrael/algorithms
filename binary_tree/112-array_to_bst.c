@@ -20,7 +20,6 @@ bst_t *array_to_bst(int *array, size_t size)
     {
         if (bst_insert(&root, array[i]) == NULL)
         {
-            // Ignore if value is already present in the tree
             continue;
         }
     }

@@ -9,6 +9,7 @@ binary_tree_t *binary_tree_node(binary_tree_t *parent, int value)
     }
 
     newNode->n = value;
+    newNode->height = 1;
     newNode->left = NULL;
     newNode->right = NULL;
 	newNode->parent = parent;

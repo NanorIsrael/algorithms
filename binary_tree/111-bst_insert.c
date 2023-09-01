@@ -1,5 +1,12 @@
 #include "binary_trees.h"
 
+/**
+ * bst_insert - Performs a left-rotation on a binary tree
+ *
+ * @tree: Pointer to the root node of the tree to rotate
+ *
+ * Return: Pointer to the new root node after rotation
+ */
 bst_t *bst_insert(bst_t **tree, int value)
 {
     if (*tree == NULL)

@@ -1,51 +1,148 @@
-
 #include "binary_trees.h"
 
-int max(int a, int b)
+
+/**
+ *binary_tree_is_bst_helper - Rotating the tree to the right
+ *@tree: The tree to be evaluated and modified
+ *@min: The tree to be evaluated and modified
+ *@max: The tree to be evaluated and modified
+ *Return: Newly modified tree
+ */
+int binary_tree_is_bst_helper(const binary_tree_t *tree, int min, int max)
 {
-    return (a > b ? a : b);
+	if (tree == NULL)
+		return (1);
+
+	if (tree->n <= min || tree->n >= max)
+		return (0);
+
+	return (binary_tree_is_bst_helper(tree->left, min, tree->n) &&
+	    binary_tree_is_bst_helper(tree->right, tree->n, max));
 }
 
-int height(const binary_tree_t *tree)
-{
-    if (tree == NULL)
-        return -1;
 
-    return 1 + max(height(tree->left), height(tree->right));
+/**
+ *binary_tree_is_bst - Rotating the tree to the right
+ *@tree: The tree to be evaluated and modified
+ *Return: Newly modified tree
+ */
+int binary_tree_is_bst(const binary_tree_t *tree)
+{
+	if (tree == NULL)
+		return (0);
+
+	return (binary_tree_is_bst_helper(tree, INT_MIN, INT_MAX));
 }
 
+/**
+ * binary_tree_height - Measures the height of a binary tree.
+ * @tree: A pointer to the root node of the tree to measure the height.
+ *
+ * Return: If tree is NULL, your function must return 0, else return height.
+ */
+size_t binary_tree_height(const binary_tree_t *tree)
+{
+	size_t left_height = 0, right_height = 0;
+
+	if (tree == NULL)
+		return (0);
+
+	left_height = tree->left ? binary_tree_height(tree->left) + 1 : 0;
+	right_height = tree->right ? binary_tree_height(tree->right) + 1 : 0;
+
+	return ((left_height > right_height) ? (left_height) : (right_height));
+}
+
+/**
+ * binary_tree_balance - Measures the balance factor of a binary tree.
+ * @tree: A pointer to the root node of the tree to measure the balance factor.
+ *
+ * Return: If tree is NULL, return 0, else return balance factor.
+ */
 int binary_tree_balance(const binary_tree_t *tree)
 {
-    if (tree == NULL)
-        return 0;
+	size_t r, l = 0;
 
-    return height(tree->left) - height(tree->right);
+	if (tree == NULL)
+		return (0);
+
+	l = binary_tree_height(tree->left);
+	r = binary_tree_height(tree->right);
+	if (tree->left)
+		l++;
+	if (tree->right)
+		r++;
+
+	return (l - r);
 }
 
-int binary_tree_is_bst_c(const binary_tree_t *tree, int min, int max)
-{
-    if (tree == NULL)
-        return 1;
 
-    if (tree->n <= min || tree->n >= max)
-        return 0;
-
-    return binary_tree_is_bst_c(tree->left, min, tree->n) &&
-           binary_tree_is_bst_c(tree->right, tree->n, max);
-}
-
+/**
+ * binary_tree_is_avl - Builds a Binary Search Tree from an array
+ *
+ * @tree: Pointer to the first element of the array to be converted
+ *
+ * Return: Pointer to the root node of the created BST, or NULL on failure
+ */
 int binary_tree_is_avl(const binary_tree_t *tree)
 {
-    if (tree == NULL)
-        return 1;
+	 int balance;
 
-    int balance = binary_tree_balance(tree);
+	if (tree == NULL)
+		return (1);
 
-    if (balance < -1 || balance > 1)
-        return 0;
+	balance = binary_tree_balance(tree);
 
-    if (!binary_tree_is_bst_c(tree, INT_MIN, INT_MAX))
-        return 0;
+	if (balance < -1 || balance > 1)
+		return (0);
 
-    return binary_tree_is_avl(tree->left) && binary_tree_is_avl(tree->right);
+	if (!binary_tree_is_bst(tree))
+		return (0);
+
+	return (binary_tree_is_avl(tree->left) && binary_tree_is_avl(tree->right));
 }
+
+
+
+
+
+
+
+
+
+// /**
+//  * binary_tree_is_bst_c - Builds a Binary Search Tree from an array
+//  *
+//  * @tree: Pointer to the first element of the array to be converted
+//  * @min: Pointer to the first element of the array to be converted
+//  * @max: Pointer to the first element of the array to be converted
+//  *
+//  * Return: Pointer to the root node of the created BST, or NULL on failure
+//  */
+//  int binary_tree_is_bst_c(const binary_tree_t *tree, int min, int max)
+// {
+// 	if (tree == NULL)
+// 		return (1);
+
+// 	if (tree->n <= min || tree->n >= max)
+// 		return (0);
+
+// 	return (binary_tree_is_bst_c(tree->left, min, tree->n) &&
+// 		binary_tree_is_bst_c(tree->right, tree->n, max));
+// }
+
+
+// /**
+//  * binary_tree_balance - Measures the balance factor of a binary tree
+//  *
+//  * @tree: Pointer to the root node of the tree
+//  *
+//  * Return: Balance factor
+//  */
+// int binary_tree_balance(const binary_tree_t *tree)
+// {
+// 	if (tree == NULL)
+// 		return (0);
+
+// 	return (avl_height(tree->left) - avl_height(tree->right));
+// }
