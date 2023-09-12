@@ -1,3 +1,5 @@
+#!/usr/bin/node
+
 const Rectangle = require("./5-square.js");
 
 class Square extends Rectangle {
@@ -12,7 +14,7 @@ class Square extends Rectangle {
 			while (rows > 0) {
 				let columns = this.width;
 				while(columns > 0) {
-					process.stdout.write('C');
+					process.stdout.write(c);
 					columns -= 1;
 				}
 				rows -= 1;

@@ -1,3 +1,5 @@
+#!/usr/bin/node
+
 exports.esrever = function (list) {
 	let reversedList = []
 	for (let idx = 1; idx <= list.length; idx++) {
