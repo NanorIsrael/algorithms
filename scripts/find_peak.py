@@ -1,13 +1,19 @@
 
 def find_peak(my_list):
+	""" Defines the function find peak"""
 	if len(my_list) == 0:
 		return None
+	left = 0
+	right =  len(my_list) - 1
+    
+	while left < right:
+		mid = left + (right - left) // 2
 
-	peak_val = my_list[0]
-	for val in my_list:
-		if val > peak_val:
-			peak_val = val
-	return peak_val
+		if my_list[mid] > my_list[mid + 1]:
+			right = mid;
+		else:
+			left = mid + 1
+	return my_list[left]
 
 print(find_peak([1, 2, 4, 6, 3]))
 print(find_peak([4, 2, 1, 2, 3, 1]))
