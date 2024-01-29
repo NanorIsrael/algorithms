@@ -6,13 +6,13 @@ from typing import Union
 
 def index_range(page:int = None, page_size: int = None) -> tuple:
 	if page and page_size:
-		if page != 1:
+		if page > 1:
 			start = (page * page_size) - page_size
-			end = page * page_size
+			return (start, page * page_size)
 		else:
-			start = 0
-			end = page_size
-		return (start, end)
+			return (0, page_size)
+	else:
+		return (0, 0)
 
 
 # res = index_range(1, 7)
