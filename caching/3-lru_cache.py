@@ -3,12 +3,12 @@
 """
 from base_caching import BaseCaching
 
-class LIFOCache(BaseCaching):
+class LRUCache(BaseCaching):
 	""" LRUCache defines:
 	  - constants of your caching system
 	  - where your data are stored (in a dictionary)
 	"""
-	RECENTLY_USED = ''
+	RECENTLY_USED = []
 	def __init__(self):
 		super().__init__()
 	
@@ -22,7 +22,15 @@ class LIFOCache(BaseCaching):
 			if key in self.cache_data.keys():
 				del self.cache_data[key]
 			elif size_of_cache > BaseCaching.MAX_ITEMS:
-				discarded_key = self.get_least_used(key)
+				least_key = [
+					delkey for delkey in self.cache_data.keys()
+					if not delkey in self.RECENTLY_USED 
+				]
+				if len(least_key) > 0:
+					discarded_key = least_key[0]
+				else:
+					discarded_key = self.RECENTLY_USED[0]
+				del self.cache_data[discarded_key]
 				print(f"DISCARD: {discarded_key}")
 			self.get_least_used(key)
 			self.cache_data[key] = item
@@ -37,8 +45,9 @@ class LIFOCache(BaseCaching):
 			return self.cache_data.get(key)
 	
 	def get_least_used(self, key):
-		temp = []
-		if len(temp) == BaseCaching.MAX_ITEMS:
-			del temp[0]
-		temp.append(key)
-		return temp[0]
+		""" Get least used item by key
+        """
+		if len(self.RECENTLY_USED) == BaseCaching.MAX_ITEMS:
+			del self.RECENTLY_USED[0]
+		self.RECENTLY_USED.append(key)
+		print (self.RECENTLY_USED)
