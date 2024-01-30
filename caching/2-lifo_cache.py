@@ -18,8 +18,10 @@ class LIFOCache(BaseCaching):
 			return
 		else:
 			size_of_cache = len(self.cache_data.values()) + 1
-			if size_of_cache > BaseCaching.MAX_ITEMS and not key in self.cache_data.keys():
-				discarded_key = self.cache_data.popitem()
+			if key in self.cache_data.keys():
+				del self.cache_data[key]
+			elif size_of_cache > BaseCaching.MAX_ITEMS:
+				discarded_key, discarded_value = self.cache_data.popitem()
 				print(f"DISCARD: {discarded_key}")
 			self.cache_data[key] = item
 	
