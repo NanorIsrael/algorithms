@@ -1,9 +1,9 @@
 #!/usr/bin/python3
-""" LRUCache module
+""" MRUCache module
 """
 from base_caching import BaseCaching
 
-class LRUCache(BaseCaching):
+class MRUCache(BaseCaching):
 	""" LRUCache defines:
 	  - constants of your caching system
 	  - where your data are stored (in a dictionary)
@@ -22,14 +22,7 @@ class LRUCache(BaseCaching):
 			if key in self.cache_data.keys():
 				del self.cache_data[key]
 			elif size_of_cache > BaseCaching.MAX_ITEMS:
-				least_key = [
-					delkey for delkey in self.cache_data.keys()
-					if not delkey in self.RECENTLY_USED 
-				]
-				if len(least_key) > 0:
-					discarded_key = least_key[0]
-				else:
-					discarded_key = self.RECENTLY_USED[0]
+				discarded_key = self.RECENTLY_USED[-1]
 				del self.cache_data[discarded_key]
 				print(f"DISCARD: {discarded_key}")
 			self.get_least_used(key)
