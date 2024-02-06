@@ -1,15 +1,22 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 """ Starts a Flash Web Application """
-from flask import Flask, render_template
+from flask import Flask, render_template, request
+from flask_babel import Babel
+
+
+def get_locale():
+    return request.accept_languages.best_match(app.config['LANGUAGES'])
 
 
 app = Flask(__name__)
+app.url_map.strict_slahes = False
 
 
-@app.route('/', strict_slashes=False)
-def hello_hbnb():
+@app.route('/')
+def get_indexi() -> str:
     """ Prints a Message when / is called """
     return render_template('0-index.html')
+
 
 if __name__ == "__main__":
     """ Main Function """
