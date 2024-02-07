@@ -5,7 +5,7 @@ import re
 from typing import List
 
 pattern = r'(?<={}=).*?(?={})'
-
+PII_FIELDS = ('name', 'email', 'phone', 'ssn', 'password')
 
 def filter_datum(fields, redaction, message, separator) -> str:
 	"""returns the log message obfuscated"""
@@ -31,9 +31,15 @@ class RedactingFormatter(logging.Formatter):
 		return filter_datum(self.fields, self.REDACTION, msg, self.SEPARATOR)
 
 
-
-
-
+def get_logger() -> logging.Logger:
+	"""returns a logging.Logger object"""
+	logger = logging.getLogger("user_data")
+	logger.setLevel(logging.INFO)
+	stream_handler = logging.StreamHandler()
+	formatter = RedactingFormatter(fields=PII_FIELDS)
+	stream_handler.setFormatter(formatter)
+	logger.addHandler(stream_handler)
+	return logger
 
 
 # fields = ["password", "date_of_birth"]
