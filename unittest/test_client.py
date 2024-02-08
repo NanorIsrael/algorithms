@@ -12,19 +12,19 @@ from parameterized import parameterized, parameterized_class
 class TestGithubOrgClient(unittest.TestCase):
 	"""Test for TestGithubOrgClient.
 	"""
+	def setUp(self):
+		self.expected_url = "https://api.github.com/orgs/{}"
+		self.expected_result = {"repos_url": "example_repos_url"}
+
 
 	@parameterized.expand([
 		("google",),
 		("abc",),
 	])
 	@patch("client.get_json")
-	def test_org(self, org_name, mock_get_json):
-		assert client.get_json is mock_get_json
-		expected_url = f"https://api.github.com/orgs/{org_name}"
-		expected_result = {"repos_url": "example_repos_url"}
-
+	def test_org(self, org_name, mock_get_json):		
 		# Mock the get_json function to return a known payload
-		mock_get_json.return_value = expected_result
+		mock_get_json.return_value = self.expected_result
 
 		# Create an instance of GithubOrgClient
 		github_org_client = GithubOrgClient(org_name)
@@ -35,11 +35,21 @@ class TestGithubOrgClient(unittest.TestCase):
 		result = github_org_client.org
 
 		# Assert that get_json is called with the expected argument
-		mock_get_json.assert_called_once_with(expected_url)
+		mock_get_json.assert_called_once_with(self.expected_url.format(org_name))
 
 		# Assert that the result matches the expected value
-		self.assertEqual(result, expected_result)
+		self.assertEqual(result, self.expected_result)
 
-	
+	def test_public_repos_url(self):
+		with patch(
+			'client.GithubOrgClient.org',
+			PropertyMock(return_value=self.expected_result)
+			) as mocked_property:
+			mocked_client = GithubOrgClient('google')
+			result = mocked_client._public_repos_url
+			result = mocked_client._public_repos_url
+			result = mocked_client._public_repos_url
+			self.assertEqual(result, self.expected_result['repos_url'])
+
 if __name__ == "__main__":
 	unittest.main()
