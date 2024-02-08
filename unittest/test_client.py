@@ -14,7 +14,12 @@ class TestGithubOrgClient(unittest.TestCase):
 	"""
 	def setUp(self):
 		self.expected_url = "https://api.github.com/orgs/{}"
-		self.expected_result = {"repos_url": "example_repos_url"}
+		self.expected_result = {
+			"repos_url": "example_repos_url",
+			"license": {
+				"key": "1233"
+			}
+		}
 
 
 	@parameterized.expand([
@@ -44,12 +49,35 @@ class TestGithubOrgClient(unittest.TestCase):
 		with patch(
 			'client.GithubOrgClient.org',
 			PropertyMock(return_value=self.expected_result)
-			) as mocked_property:
+			):
 			mocked_client = GithubOrgClient('google')
 			result = mocked_client._public_repos_url
 			result = mocked_client._public_repos_url
 			result = mocked_client._public_repos_url
 			self.assertEqual(result, self.expected_result['repos_url'])
+
+	@patch('client.get_json')
+	def test_public_repos(self, mock_get_json):
+		with patch(
+			'client.GithubOrgClient._public_repos_url',
+			return_value = [
+                {'name': 'repo_0'},
+                {'name': 'repo_1'},
+                {'name': 'repo_2'}
+            ]
+		):
+			mock_get_json.return_value = [
+                {'name': 'repo_0'},
+                {'name': 'repo_1'},
+                {'name': 'repo_2'}
+        	]
+			mocked_client = GithubOrgClient('google')
+			result = mocked_client.public_repos()
+			assert len(result) > 0
+
+			mock_get_json.assert_called_once()
+			self.assertEqual(result, ['repo_0', 'repo_1', 'repo_2'])
+
 
 if __name__ == "__main__":
 	unittest.main()
