@@ -16,6 +16,7 @@ class TestGithubOrgClient(unittest.TestCase):
 		self.expected_url = "https://api.github.com/orgs/{}"
 		self.expected_result = {
 			"repos_url": "example_repos_url",
+			"name": "repo_0",
 			"license": {
 				"key": "1233"
 			}
