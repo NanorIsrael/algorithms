@@ -4,6 +4,7 @@ import logging
 import re
 import mysql.connector
 from typing import List
+import bcrypt
 
 
 pattern = r'(?<={}=).*?(?={})'
@@ -44,6 +45,7 @@ def get_logger() -> logging.Logger:
 	return logger
 
 def get_db() -> mysql.connector.connection.MySQLConnection:
+	"""returns a  returns a connector to the database"""
 	from os import getenv
 	try:
 		# Establish a connection to the MySQL database
@@ -59,7 +61,36 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
 		print(f"Error: {err}")
 		return None
 
+def main() -> None:
+	"""obtain a database connection using get_db
+	 	and retrieve all rows in the users table and 
+		display each row under a filtered format
+	"""
+	db = get_db()
+	cursor = db.cursor()
+	cursor.execute("SELECT * FROM users;")
+	logger = get_logger()
+	
+	user_str = generate_cursor_string(cursor)
+	[logger.info(row) for row in user_str]
+	cursor.close()
+	db.close()
 
+def generate_cursor_string(cursor: any):
+	# Fetch all rows from the cursor
+	rows = cursor.fetchall()
+	column_names = [col[0] for col in cursor.description]
+
+	data = []
+	for row in rows:
+		result = '; '.join(
+			[f'{k}={v}' for k, v in zip(column_names, row)]
+		)
+		data.append(result)
+	return data
+
+if __name__ == '__main__':
+	main()
 # fields = ["password", "date_of_birth"]
 # messages = ["name=egg;email=eggmin@eggsample.com;password=eggcellent;date_of_birth=12/12/1986;", "name=bob;email=bob@dylan.com;password=bobbycool;date_of_birth=03/04/1993;"]
 
