@@ -3,54 +3,63 @@
 """
 import sys
 
-def is_safe(board, row, col):
+def is_safe(board: list, row: int, col: int, n: int) -> bool:
+    """check if move is safe"""
     # Check if there is a queen in the same column
     for i in range(row):
-        if board[i][col] == 1:
+        if board[i] == col:
             return False
-    
-    # Check upper diagonal on left side
+
+    # Check upper left diagonal
     for i, j in zip(range(row, -1, -1), range(col, -1, -1)):
-        if board[i][j] == 1:
+        if board[i] == j:
             return False
-    
-    # Check upper diagonal on right side
-    for i, j in zip(range(row, -1, -1), range(col, len(board))):
-        if board[i][j] == 1:
+
+    # Check upper right diagonal
+    for i, j in zip(range(row, -1, -1), range(col, n)):
+        if board[i] == j:
             return False
-    
+
     return True
 
-def solve_nqueens_util(board, row):
-    if row == len(board):
-        print_solution(board)
-        return True
-    
-    for col in range(len(board)):
-        if is_safe(board, row, col):
-            board[row][col] = 1
-            solve_nqueens_util(board, row + 1)
-            board[row][col] = 0
+def solve_nqueens(n: int, board: list, row: int, solutions: list) -> None:
+    """find optimal solution"""
+    if row == n:
+        print(board)
+        solutions.append(list(enumerate(board)))
+        return
 
-def print_solution(board):
-    for row in board:
-        print("".join('Q' if cell == 1 else '.' for cell in row))
-    print()
+    for col in range(n):
+        if is_safe(board, row, col, n):
+            board[row] = col
+            solve_nqueens(n, board, row + 1, solutions)
+            board[row] = -1
 
-def solve_nqueens(n):
-    if not n.isdigit():
+def nqueens(n: int) -> None:
+    """find optimal solution"""
+    if not isinstance(n, int):
         print("N must be a number")
         sys.exit(1)
-    n = int(n)
+
     if n < 4:
         print("N must be at least 4")
         sys.exit(1)
-    
-    board = [[0] * n for _ in range(n)]
-    solve_nqueens_util(board, 0)
+
+    board = [-1] * n
+    solutions = []
+    solve_nqueens(n, board, 0, solutions)
+
+    for solution in solutions:
+        print(solution)
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
         print("Usage: nqueens N")
         sys.exit(1)
-    solve_nqueens(sys.argv[1])
+
+    try:
+        n = int(sys.argv[1])
+        nqueens(n)
+    except ValueError:
+        print("N must be a number")
+        sys.exit(1)

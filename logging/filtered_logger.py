@@ -86,7 +86,7 @@ def generate_cursor_string(cursor: any):
 		result = '; '.join(
 			[f'{k}={v}' for k, v in zip(column_names, row)]
 		)
-		data.append(result)
+		data.append(result + ';')
 	return data
 
 if __name__ == '__main__':
